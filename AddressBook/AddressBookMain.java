@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class AddressBook {
+public class AddressBookMain {
 
+    // ContactPerson class - holds contact details
     static class ContactPerson {
         private String firstName, lastName, address, city, state, zip, phoneNumber, email;
 
@@ -28,16 +29,38 @@ public class AddressBook {
         }
     }
 
+    // AddressBook class - manages contacts
+    static class AddressBook {
+        private List<ContactPerson> contacts = new ArrayList<>();
+
+        public void addContact(ContactPerson contact) {
+            contacts.add(contact);
+            System.out.println("Contact added successfully!");
+        }
+
+        public void displayContacts() {
+            if (contacts.isEmpty()) {
+                System.out.println("No contacts to display.");
+            } else {
+                for (ContactPerson c : contacts) {
+                    System.out.println(c);
+                }
+            }
+        }
+    }
+
+    // Main method - console interface
     public static void main(String[] args) {
-        List<ContactPerson> addressBook = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
+        AddressBook addressBook = new AddressBook();
 
         System.out.println("Welcome to Address Book Program!");
-        System.out.print("Enter number of contacts to add: ");
-        int count = scanner.nextInt();
+
+        System.out.print("How many contacts do you want to add? ");
+        int n = scanner.nextInt();
         scanner.nextLine(); // consume newline
 
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < n; i++) {
             System.out.println("\nEnter details for Contact " + (i + 1) + ":");
             System.out.print("First Name: ");
             String firstName = scanner.nextLine();
@@ -57,14 +80,11 @@ public class AddressBook {
             String email = scanner.nextLine();
 
             ContactPerson contact = new ContactPerson(firstName, lastName, address, city, state, zip, phoneNumber, email);
-            addressBook.add(contact);
-            System.out.println("Contact added successfully!");
+            addressBook.addContact(contact);
         }
 
-        System.out.println("\nAll Contacts in Address Book:");
-        for (ContactPerson contact : addressBook) {
-            System.out.println(contact);
-        }
+        System.out.println("\nAll Contacts:");
+        addressBook.displayContacts();
 
         scanner.close();
     }
